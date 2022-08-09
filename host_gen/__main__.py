@@ -13,10 +13,12 @@ WL_ITERATOR = iglob("./data/whitelist/**.txt")
 
 
 def make_host(url):
+    """make_host: converts an url to a valid hosts file entry"""
     return "0.0.0.0 {url}".format(url=url)
 
 
 def make_cache():
+    """make_cache: reads all files in ./data/blacklists/ and caches them in CACHE"""
     logger.info("Caching blacklists")
     for entry in ITERATOR:
         with open(entry, "r") as fin:
@@ -28,12 +30,14 @@ def make_cache():
 
 
 def make_host_file():
+    """make_host_file: writes hosts file to Target"""
     with open(TARGET, "w") as fout:
         logger.info("Writing host file")
         fout.writelines((host.strip() for host in CACHE.difference(WL_CACHE)))
 
 
 def make_whitelist():
+    """make_cache: reads all files in ./data/whitelists/ and caches them in WL_CACHE"""
     logger.info("Caching whitelists")
     for entry in WL_ITERATOR:
         with open(entry, "r") as fin:
